@@ -1,13 +1,13 @@
 
 """
-Author: Put your name here
+Author: Edward Numrich
 """
 class FeistelNetwork:
     """
     FeistelNetwork consists of 16 rounds.
     Each round performs identical operations.
     """
-    # Initialize lookup tables
+    # Initialize lookup tables 
     Expansion = [
         [32, 1, 2, 3, 4, 5],
         [4, 5, 6, 7, 8, 9],
@@ -88,7 +88,18 @@ class FeistelNetwork:
         :param subkeys: an array of 16 subkeys
         :return: a 64-bit string generated after round 16.
         """
-        return "0"*64
+
+        output = ""
+        leftString = inputString[:32]
+        rightString = inputString[32:]
+
+        for x in range(16):
+            leftString = FeistelNetwork.xor(leftString, FeistelNetwork.fFunction(rightString, subkeys[x]))
+            leftString, rightString = rightString, leftString
+
+        output = str(rightString) + str(leftString)
+
+        return output
 
 
     @staticmethod
@@ -102,7 +113,15 @@ class FeistelNetwork:
         :param key: - 48-bit subkey used for this round
         :return: a 32-bit string generated
         """
-        return 0*32
+
+        output = ""
+
+        extendedBits = FeistelNetwork.expansion(r)
+        xorString = FeistelNetwork.xor(extendedBits, key)
+        substitutedString = FeistelNetwork.sBoxes(xorString)
+        output = FeistelNetwork.pPermutation(substitutedString)
+
+        return output
     
 
     @staticmethod
@@ -113,7 +132,14 @@ class FeistelNetwork:
         :param secondInput: - second string to XOR
         :return: resulting string of the XOR operation
         """
-        return "0"*48
+
+        output = ""
+
+        assert(len(firstInput) == len(secondInput))
+        for index in range(len(str(firstInput))):
+            output += str((int(firstInput[index]) + int(secondInput[index])) % 2)
+
+        return output
 
     @staticmethod
     def expansion(r):
@@ -122,7 +148,12 @@ class FeistelNetwork:
         :param r: right half of the input to expand
         :return: a 48-bit string
         """
-        return "0"*48
+        expandedString = ""
+
+        for row in range(8):
+            for col in range(6):
+                expandedString += str(r)[FeistelNetwork.Expansion[row][col] - 1]
+        return expandedString
     
 
     @staticmethod
@@ -134,7 +165,20 @@ class FeistelNetwork:
         :param input: - 48-bit string to feed into the S-boxes
         :return: a 32-bit string; combined outputs of the S-boxes
         """
-        return "0"*32
+        output = ""
+        index = 0
+        blocks = [""] * 8
+
+        for block in range(8):
+            for bit in range(6):
+                blocks[block] += inputString[index]
+                index += 1
+
+        for x in range(8):
+            row = int(blocks[x][0] + blocks[x][5], 2)
+            column = int(blocks[x][1:5], 2)
+            output += str(bin(FeistelNetwork.SBoxes[x][row][column])[2:]).zfill(4)
+        return output
     
 
     @staticmethod
@@ -144,4 +188,11 @@ class FeistelNetwork:
         :param input: - 32-bit string to feed into the P permutation table
         :return: a 32-bit string
         """
-        return "0"*32
+
+        output = ""
+
+        for row in range(4):
+            for col in range(8):
+                output += str(inputString)[FeistelNetwork.PPermutation[row][col] - 1]
+
+        return output

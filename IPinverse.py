@@ -22,4 +22,11 @@ class IPinverse:
         :param bits: 64 bits
         :return: 64-bits IPinverse(bits)
         """
-        return "0"*64
+
+        output = ""
+
+        for row in range(8):
+            for col in range(8):
+                output += bits[IPinverse.permutationInv[row][col] - 1]
+
+        return output

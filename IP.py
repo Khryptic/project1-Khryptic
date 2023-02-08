@@ -23,4 +23,11 @@ class IP:
         :param bits: a String of 64 bits
         :return: permuted string of 64 bits
         """
-        return '0'*64
+
+        assert(len(bits) == 64)
+        output = ""
+        for row in range(8):
+            for col in range(8):
+                output += bits[IP.InitialPermutation[row][col] - 1]
+        return output 
+    
