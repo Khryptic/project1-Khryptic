@@ -7,7 +7,7 @@ class FeistelNetwork:
     FeistelNetwork consists of 16 rounds.
     Each round performs identical operations.
     """
-    # Initialize lookup tables 
+    # Initialize lookup tables
     Expansion = [
         [32, 1, 2, 3, 4, 5],
         [4, 5, 6, 7, 8, 9],
