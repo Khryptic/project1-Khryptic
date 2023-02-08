@@ -29,4 +29,4 @@ class IPinverse:
             for col in range(8):
                 output += bits[IPinverse.permutationInv[row][col] - 1]
 
-        return output
+        return output 

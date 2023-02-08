@@ -23,7 +23,7 @@ class KeySchedule:
     ]
 
 
-    @staticmethod
+    @staticmethod 
     def pc_1(key):
         """
         Permuted Choice - 1

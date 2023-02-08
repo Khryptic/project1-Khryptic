@@ -29,5 +29,5 @@ class IP:
         for row in range(8):
             for col in range(8):
                 output += bits[IP.InitialPermutation[row][col] - 1]
-        return output 
+        return output  
     

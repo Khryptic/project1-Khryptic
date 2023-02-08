@@ -27,4 +27,4 @@ class Conversion:
         assert(len(bits) == 64), "The length of the parameter bit-string must be 64"
         result = ''.join([chr(int(c, 2)) for c in [bits[idx : idx + 8] for idx in range(0, len(bits), 8)]])
         assert(len(result) * 8 == len(bits)), "Conversion is incorrect"
-        return result
+        return result 

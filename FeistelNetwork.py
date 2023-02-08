@@ -195,4 +195,4 @@ class FeistelNetwork:
             for col in range(8):
                 output += str(inputString)[FeistelNetwork.PPermutation[row][col] - 1]
 
-        return output
+        return output 

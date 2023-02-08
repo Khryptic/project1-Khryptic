@@ -35,4 +35,4 @@ class DES:
         initialPermutedOutput = IP.permute(y)
         FeistelOutput = FeistelNetwork.iterate(initialPermutedOutput, subkeys)
         finalOutput = IPinverse.permute(FeistelOutput)
-        return finalOutput
+        return finalOutput 
